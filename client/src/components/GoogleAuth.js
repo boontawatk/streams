@@ -30,7 +30,10 @@ const GoogleAuth = () => {
           scope: "email",
         });
         authRef.current = window.gapi.auth2.getAuthInstance();
+        //first time check
         setStatus(authRef.current.isSignedIn.get());
+        //event listen for isSignedIn change for other time
+        //onAuthChange is callback
         authRef.current.isSignedIn.listen(onAuthChange);
       });
     };
