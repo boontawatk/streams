@@ -3,8 +3,13 @@ import React, { useEffect, useState } from "react";
 const GoogleAuth = () => {
   const [status, setStatus] = useState(null);
 
+  const onAuthChange = (isSignedIn) => {
+    setStatus(isSignedIn);
+  };
+
   useEffect(() => {
     //authenticate user
+
     const authenticate = async () => {
       window.gapi.load("client:auth2", async () => {
         await window.gapi.client.init({
@@ -14,6 +19,7 @@ const GoogleAuth = () => {
         });
         const auth = window.gapi.auth2.getAuthInstance();
         setStatus(auth.isSignedIn.get());
+        auth.isSignedIn.listen(onAuthChange);
       });
     };
     authenticate();
