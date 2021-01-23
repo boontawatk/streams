@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { connect } from "react-redux";
+import { signIn, signOut } from "../actions";
 
 const GoogleAuth = () => {
   const [status, setStatus] = useState(null);
@@ -7,15 +9,19 @@ const GoogleAuth = () => {
   const authRef = useRef(null);
   //input function for checking if state change (for listen function)
   const onAuthChange = (isSignedIn) => {
-    setStatus(isSignedIn);
+    if (isSignedIn) {
+      this.props.signIn();
+    } else {
+      this.props.signOut();
+    }
   };
 
   //event to sign in
-  const signIn = () => {
+  const OnSignIn = () => {
     authRef.current.signIn();
   };
 
-  const signOut = () => {
+  const OnSignOut = () => {
     authRef.current.signOut();
   };
 
@@ -45,14 +51,14 @@ const GoogleAuth = () => {
       return <button className="ui red loading button">Loading</button>;
     } else if (status) {
       return (
-        <button className="ui red google button" onClick={signOut}>
+        <button className="ui red google button" onClick={OnSignOut}>
           <i className="google icon" />
           Sign Out
         </button>
       );
     } else {
       return (
-        <button className="ui red google button" onClick={signIn}>
+        <button className="ui red google button" onClick={OnSignIn}>
           <i className="google icon" />
           Sign In with Google
         </button>
@@ -62,4 +68,8 @@ const GoogleAuth = () => {
   return <div>{renderAuthButton()}</div>;
 };
 
-export default GoogleAuth;
+const mapStateToProps = (state) => {
+  return { isSignedIn: state.auth.isSignedIn };
+};
+
+export default connect(null, { signIn, signOut })(GoogleAuth);
