@@ -8,7 +8,7 @@ const GoogleAuth = (props) => {
   //input function for checking if state change (for listen function)
   const onAuthChange = (isSignedIn) => {
     if (isSignedIn) {
-      props.signIn();
+      props.signIn(authRef.current.currentUser.get().getId());
     } else {
       props.signOut();
     }
