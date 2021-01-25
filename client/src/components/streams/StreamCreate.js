@@ -1,23 +1,30 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 
+const renderInput = ({ input, label, meta }) => {
+  let msg = "";
+  let errClass = "field";
+  if (meta.touched && meta.error) {
+    msg = meta.error;
+    errClass = "field error";
+  }
+  return (
+    <div className={errClass}>
+      <label>{label}</label>
+      <input
+        type="text"
+        onChange={input.onChange}
+        value={input.value}
+        autoComplete="off"
+      />
+      <div className="ui error message">{msg}</div>
+    </div>
+  );
+};
+
 const StreamCreate = (props) => {
   const onSubmit = (formValues) => {};
-  const renderInput = ({ input, label, meta }) => {
-    let msg = "";
-    let errClass = "field";
-    if (meta.touched && meta.error) {
-      msg = meta.error;
-      errClass = "field error";
-    }
-    return (
-      <div className={errClass}>
-        <label>{label}</label>
-        <input type="text" {...input} autoComplete="off" />
-        <div className="ui error message">{msg}</div>
-      </div>
-    );
-  };
+
   return (
     <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
       <Field name="title" component={renderInput} label="Enter title" />
