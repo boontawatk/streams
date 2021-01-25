@@ -26,7 +26,6 @@ const renderInput = ({ input, label, meta }) => {
 
 const StreamCreate = (props) => {
   const onSubmit = (formValues) => {
-    console.log("Adf");
     props.createStream(formValues);
   };
 
