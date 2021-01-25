@@ -1,5 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
+import { createStream } from "../../actions";
 
 const renderInput = ({ input, label, meta }) => {
   let msg = "";
@@ -23,7 +25,10 @@ const renderInput = ({ input, label, meta }) => {
 };
 
 const StreamCreate = (props) => {
-  const onSubmit = (formValues) => {};
+  const onSubmit = (formValues) => {
+    console.log("Adf");
+    props.createStream(formValues);
+  };
 
   return (
     <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
@@ -49,7 +54,9 @@ const validate = (formValues) => {
   return errors;
 };
 
-export default reduxForm({
+const formWrapped = reduxForm({
   form: "streamCreate",
   validate,
 })(StreamCreate);
+
+export default connect(null, { createStream })(formWrapped);
